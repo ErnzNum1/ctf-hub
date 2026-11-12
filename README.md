@@ -1,7 +1,6 @@
 # CTF Hub
 
-A website about 4 Capture The Flag platforms: TryHackMe, Hack The Box,
-PortSwigger Web Security Academy and CS++.
+A website about 3 Capture The Flag platforms: TryHackMe, Hack The Box and CS++.
 
 - Frontend: Bootstrap 5
 - Backend: Python (Flask)
@@ -122,11 +121,11 @@ Your edits are saved in the database, so they stay after you restart the app.
 
 | Page | Address | What it is |
 |------|---------|------------|
-| Home | `/` | The 4 platform cards |
+| Home | `/` | The 3 platform cards |
 | Quiz | `/quiz` | "Which platform should I start with?" |
 | Challenges | `/challenges` | 10 CTF challenges (3 easy, 3 medium, 4 hard) |
 | Practice Labs | `/practice` | Links to open-source apps made for hacking practice (run on your own PC) |
-| Compare | `/compare` | Side-by-side table of the 4 platforms |
+| Compare | `/compare` | Side-by-side table of the 3 platforms |
 | Learn | `/learn` | Beginner roadmap + glossary (with search box) |
 | Videos | `/videos` | All videos, search by title/description/tag, filter by platform |
 | About | `/about` | About me |

@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    container_name: ctf-hub
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data                      # ctf.db and secret.key
+      - ./static/videos:/app/static/videos  # your videos and admin uploads
+    restart: unless-stopped

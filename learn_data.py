@@ -21,11 +21,6 @@ ROADMAP = [
         "platform": "tryhackme",
     },
     {
-        "title": "Go deep on web security",
-        "text": "Learn SQL injection, XSS and other web bugs with free, well-written labs.",
-        "platform": "portswigger",
-    },
-    {
         "title": "Hack realistic machines",
         "text": "Start with the beginner area and Easy machines, then move up when ready.",
         "platform": "hackthebox",

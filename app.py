@@ -29,7 +29,11 @@ from quiz_data import QUESTIONS, REASONS
 from seed_data import PLATFORMS, VIDEOS
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DB_PATH = os.path.join(BASE_DIR, "ctf.db")
+# Where ctf.db and secret.key are kept. Normal run: the project folder.
+# In Docker we set CTF_DATA_DIR=/data so they live outside the container.
+DATA_DIR = os.path.abspath(os.environ.get("CTF_DATA_DIR", BASE_DIR))
+os.makedirs(DATA_DIR, exist_ok=True)
+DB_PATH = os.path.join(DATA_DIR, "ctf.db")
 VIDEO_DIR = os.path.join(BASE_DIR, "static", "videos")
 ALLOWED_VIDEO_EXT = {"mp4", "webm", "mov", "m4v"}
 
@@ -42,17 +46,13 @@ DEFAULT_ACCOUNTS = [
     ("ubuntu", "capturetheflag", "user"),
 ]
 
-# Platforms that were removed from the site. On startup they are deleted from an
-# existing ctf.db (together with their videos), so you do not need to rebuild it.
-REMOVED_PLATFORM_SLUGS = ["portswigger"]
-
 
 def load_secret_key():
     """Use CTF_SECRET_KEY if set, otherwise create a random key once and keep it in secret.key."""
     env_key = os.environ.get("CTF_SECRET_KEY")
     if env_key:
         return env_key
-    path = os.path.join(BASE_DIR, "secret.key")
+    path = os.path.join(DATA_DIR, "secret.key")
     try:
         with open(path, encoding="utf-8") as f:
             key = f.read().strip()
@@ -77,6 +77,31 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 os.makedirs(VIDEO_DIR, exist_ok=True)
 
+
+def video_file_exists(filename):
+    """True if the video file is really inside the static/videos folder."""
+    if not filename:
+        return False
+    path = os.path.normpath(os.path.join(VIDEO_DIR, filename))
+    return path.startswith(VIDEO_DIR + os.sep) and os.path.isfile(path)
+
+
+# lets the templates ask "is this video file really there?"
+app.jinja_env.globals["video_file_exists"] = video_file_exists
+
+
+def warn_missing_videos():
+    """Print a clear message in the terminal for every video that has no file yet."""
+    db = sqlite3.connect(DB_PATH)
+    try:
+        for (name,) in db.execute("SELECT filename FROM videos WHERE filename IS NOT NULL"):
+            if not video_file_exists(name):
+                print(f"[CTF Hub] WARNING: video file not found: {name}")
+                print(f"          Copy it into this folder: {VIDEO_DIR}")
+    finally:
+        db.close()
+
+
 # Challenges ------------------------------------------------------------------
 CHALLENGE_DIR = os.path.join(BASE_DIR, "challenge_files")
 FLAGS = {c["id"]: c["flag"] for c in CHALLENGES}
@@ -85,6 +110,9 @@ CHALLENGES_BY_ID = {c["id"]: c for c in CHALLENGES}
 PUBLIC_CHALLENGES = [{k: v for k, v in c.items() if k != "flag"} for c in CHALLENGES]
 PUBLIC_BY_ID = {c["id"]: c for c in PUBLIC_CHALLENGES}
 build_challenge_files(CHALLENGE_DIR, FLAGS)
+
+# Platforms that no longer exist on the site. Removed from the database at startup.
+REMOVED_PLATFORMS = ["portswigger"]
 
 # Text of the About page (the admin can change it; these are the defaults)
 ABOUT_DEFAULTS = {
@@ -180,11 +208,10 @@ def init_db():
     if "tags" not in video_cols:
         db.execute("ALTER TABLE videos ADD COLUMN tags TEXT")
 
-    for old_slug in REMOVED_PLATFORM_SLUGS:
-        row = db.execute("SELECT id FROM platforms WHERE slug = ?", (old_slug,)).fetchone()
-        if row:
-            db.execute("DELETE FROM videos WHERE platform_id = ?", (row[0],))
-            db.execute("DELETE FROM platforms WHERE id = ?", (row[0],))
+    # Platforms that were removed from the site (their videos are deleted too)
+    db.execute("PRAGMA foreign_keys = ON")
+    for old_slug in REMOVED_PLATFORMS:
+        db.execute("DELETE FROM platforms WHERE slug = ?", (old_slug,))
 
     for i, p in enumerate(PLATFORMS):
         db.execute(
@@ -1021,8 +1048,7 @@ def admin_users():
 
 # Create the database when the app starts
 init_db()
+warn_missing_videos()
 
 if __name__ == "__main__":
-    # host 0.0.0.0 lets other devices on the network open the site (e.g. from a Raspberry Pi).
-    # debug is OFF on purpose: debug mode lets anyone on the network run code.
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(debug=True)

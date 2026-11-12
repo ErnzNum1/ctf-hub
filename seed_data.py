@@ -328,86 +328,6 @@ VIDEOS = [
         "tags": "tryhackme,search-skills,github,poc,cve,task-6",
     },
     # ------------------------------------------------------------------
-    # Hack The Box - Starting Point: Meow (7 parts)
-    # ------------------------------------------------------------------
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 1)",
-        "description": (
-            "Part 1 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (1).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-1",
-    },
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 2)",
-        "description": (
-            "Part 2 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (2).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-2",
-    },
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 3)",
-        "description": (
-            "Part 3 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (3).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-3",
-    },
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 4)",
-        "description": (
-            "Part 4 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (4).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-4",
-    },
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 5)",
-        "description": (
-            "Part 5 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (5).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-5",
-    },
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 6)",
-        "description": (
-            "Part 6 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (6).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-6",
-    },
-    {
-        "platform_slug": "hackthebox",
-        "title": "Hack The Box: Starting Point - Meow (Part 7)",
-        "description": (
-            "Part 7 of my walkthrough of Meow, a beginner machine from the Hack The Box "
-            "Starting Point path. We connect to the target, enumerate it and work toward "
-            "the flag."
-        ),
-        "filename": "HACKTHEBOXMEOW (7).mp4",
-        "tags": "hackthebox,starting-point,meow,beginner,part-7",
-    },
-    # ------------------------------------------------------------------
     # CS++ Cybersecurity CTF - General Skills (warm-ups: encodings)
     # ------------------------------------------------------------------
     {
@@ -516,5 +436,68 @@ VIDEOS = [
         ),
         "filename": "CSPLUS (10).mp4",
         "tags": "csplusplus,ctf,general-skills,multi-layer,encoding,easy",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 1) Setting Up and Connecting",
+        "description": (
+            "We connect to the Hack The Box VPN, spawn the Starting Point machine called Meow and check that we can reach the target."
+        ),
+        "filename": "HACKTHEBOXMEOW (1).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,setup,vpn,connect",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 2) Scanning with Nmap",
+        "description": (
+            "We scan the target with Nmap to find which ports are open and which services are running on them."
+        ),
+        "filename": "HACKTHEBOXMEOW (2).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,nmap,scanning,enumeration",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 3) Finding the Telnet Service",
+        "description": (
+            "We read the Nmap result and find the Telnet service on port 23, then explain what Telnet is and why it is not safe."
+        ),
+        "filename": "HACKTHEBOXMEOW (3).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,telnet,port-23,enumeration",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 4) Connecting with Telnet",
+        "description": (
+            "We connect to the machine with the telnet command and see the login prompt."
+        ),
+        "filename": "HACKTHEBOXMEOW (4).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,telnet,login,linux",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 5) Trying Default Logins",
+        "description": (
+            "We try common default usernames. The machine has no password for the root account, which is a very common misconfiguration."
+        ),
+        "filename": "HACKTHEBOXMEOW (5).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,default-credentials,root,misconfiguration",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 6) Getting Access",
+        "description": (
+            "We log in as root and look around the system to confirm we have full access."
+        ),
+        "filename": "HACKTHEBOXMEOW (6).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,root,shell,linux",
+    },
+    {
+        "platform_slug": "hackthebox",
+        "title": "Hack The Box: Starting Point - Meow (Part 7) Capturing the Flag",
+        "description": (
+            "We find flag.txt, read it with cat, and submit it on Hack The Box to finish the machine."
+        ),
+        "filename": "HACKTHEBOXMEOW (7).mp4",
+        "tags": "hackthebox,starting-point,meow,easy,flag,cat,submit",
     },
 ]
