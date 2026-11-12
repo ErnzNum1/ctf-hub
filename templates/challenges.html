@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Challenges - CTF Hub{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end mb-3 gap-2">
+  <div>
+    <h1 class="h3 mb-1"><i class="bi bi-flag"></i> Challenges</h1>
+    <p class="text-secondary mb-0">
+      Solve challenges, find the hidden flag (it looks like <code>CTF{...}</code>) and submit it.
+    </p>
+  </div>
+  <a href="{{ url_for('practice') }}" class="btn btn-outline-success">
+    <i class="bi bi-hdd-network"></i> Practice Labs
+  </a>
+</div>
+
+<!-- Progress -->
+<div class="card mb-4">
+  <div class="card-body">
+    {% if current_user %}
+      <div class="d-flex justify-content-between mb-1">
+        <strong>Your progress: {{ solved_count }} / {{ total }} solved</strong>
+        <span class="text-secondary">{{ points }} / {{ total_points }} points</span>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Progress" style="height: 10px;">
+        <div class="progress-bar bg-success" style="width: {{ (100 * solved_count / total)|round|int if total else 0 }}%;"></div>
+      </div>
+      <p class="small text-secondary mt-2 mb-0">
+        Your progress is saved to your account ({{ current_user.username }}).
+      </p>
+    {% else %}
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span><i class="bi bi-lock"></i> Log in to submit flags and save your progress.</span>
+        <span>
+          <a class="btn btn-sm btn-success" href="{{ url_for('login', next=url_for('challenges')) }}">Log in</a>
+          <a class="btn btn-sm btn-outline-success" href="{{ url_for('signup') }}">Sign up</a>
+        </span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% set labels = {'easy': ('Easy', 'success', 'bi-emoji-smile'),
+                 'medium': ('Medium', 'warning', 'bi-lightning'),
+                 'hard': ('Hard', 'danger', 'bi-fire')} %}
+
+{% for level, items in groups %}
+  {% set label, color, icon = labels[level] %}
+  <section class="mb-5">
+    <h2 class="h4 mb-3"><i class="bi {{ icon }} text-{{ color }}"></i> {{ label }}</h2>
+    <div class="row g-3">
+      {% for c in items %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <a href="{{ url_for('challenge', cid=c.id) }}" class="text-decoration-none">
+            <div class="card h-100 platform-card" style="--accent: var(--bs-{{ color }});">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h3 class="h6 mb-0">{{ c.title }}</h3>
+                  {% if c.id in solved %}
+                    <span class="badge text-bg-success"><i class="bi bi-check-lg"></i> Solved</span>
+                  {% endif %}
+                </div>
+                <p class="small text-secondary mb-3">{{ c.category }}</p>
+                <div class="d-flex justify-content-between small">
+                  <span class="badge text-bg-{{ color }}">{{ label }}</span>
+                  <span class="text-secondary">{{ c.points }} pts
+                    {% if c.files %}&middot; <i class="bi bi-paperclip"></i> file{% endif %}
+                    {% if c.lab %}&middot; <i class="bi bi-globe2"></i> web{% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}
+
+{% if current_user %}
+<form method="post" action="{{ url_for('reset_progress') }}"
+      onsubmit="return confirm('Reset your progress?');">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button class="btn btn-sm btn-outline-secondary" type="submit">
+    <i class="bi bi-arrow-counterclockwise"></i> Reset my progress
+  </button>
+</form>
+{% endif %}
+{% endblock %}

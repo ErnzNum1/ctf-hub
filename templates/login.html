@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Log in - CTF Hub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-3"><i class="bi bi-box-arrow-in-right"></i> Log in</h1>
+        <form method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+          <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username"
+                   value="{{ username }}" required autofocus autocomplete="username">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   required autocomplete="current-password">
+          </div>
+          <button class="btn btn-success w-100" type="submit">Log in</button>
+        </form>
+        <p class="small text-secondary text-center mt-3 mb-0">
+          No account yet? <a href="{{ url_for('signup') }}">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

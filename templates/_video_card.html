@@ -1,0 +1,28 @@
+<div class="card h-100">
+  {% if v.filename %}
+    <video class="w-100 rounded-top" controls preload="metadata"
+           src="{{ url_for('static', filename='videos/' ~ v.filename) }}"></video>
+  {% elif v.youtube_url and (v.youtube_url|youtube_embed) %}
+    <div class="ratio ratio-16x9">
+      <iframe src="{{ v.youtube_url|youtube_embed }}" title="{{ v.title }}"
+              allowfullscreen loading="lazy"></iframe>
+    </div>
+  {% endif %}
+  <div class="card-body">
+    <h3 class="h6">{{ v.title }}</h3>
+    {% if show_platform and v.platform_name %}
+      <a href="{{ url_for('platform', slug=v.platform_slug) }}"
+         class="badge rounded-pill text-decoration-none mb-2 d-inline-block"
+         style="background: {{ v.accent }}; color: #111;">{{ v.platform_name }}</a>
+    {% endif %}
+    {% if v.description %}<p class="small text-secondary mb-2">{{ v.description }}</p>{% endif %}
+    {% if v.tags %}
+      <div class="d-flex flex-wrap gap-1">
+        {% for t in v.tags.split(',') %}
+          <a class="badge text-bg-secondary text-decoration-none"
+             href="{{ url_for('videos', q=t) }}">#{{ t }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

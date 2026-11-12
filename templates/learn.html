@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Learn - CTF Hub{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4"><i class="bi bi-mortarboard"></i> Learn CTF</h1>
+
+<!-- Roadmap -->
+<section class="mb-5">
+  <h2 class="h4 mb-3"><i class="bi bi-signpost-split"></i> Beginner Roadmap</h2>
+  <p class="text-secondary">A suggested order. You do not have to follow it exactly.</p>
+  <ol class="list-group list-group-numbered">
+    {% for step in roadmap %}
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-semibold">{{ step.title }}</div>
+          <span class="text-secondary">{{ step.text }}</span>
+        </div>
+        {% if step.platform and names.get(step.platform) %}
+          <a class="btn btn-sm btn-outline-success ms-3 text-nowrap"
+             href="{{ url_for('platform', slug=step.platform) }}">{{ names[step.platform] }}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+
+<!-- Glossary -->
+<section>
+  <h2 class="h4 mb-3"><i class="bi bi-book"></i> Glossary</h2>
+  <input type="search" id="glossarySearch" class="form-control mb-3"
+         placeholder="Search a word (example: flag, shell, sql)" aria-label="Search glossary">
+  <div id="glossaryList" class="row g-3">
+    {% for term, meaning in glossary %}
+      <div class="col-12 col-md-6 glossary-item" data-text="{{ (term ~ ' ' ~ meaning)|lower }}">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="h6 text-success">{{ term }}</h3>
+            <p class="small mb-0">{{ meaning }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <p id="glossaryEmpty" class="text-secondary mt-3 d-none">No words match your search.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var box = document.getElementById('glossarySearch');
+    var items = document.querySelectorAll('.glossary-item');
+    var empty = document.getElementById('glossaryEmpty');
+    box.addEventListener('input', function () {
+      var q = box.value.trim().toLowerCase();
+      var shown = 0;
+      items.forEach(function (el) {
+        var match = !q || el.dataset.text.indexOf(q) !== -1;
+        el.classList.toggle('d-none', !match);
+        if (match) shown++;
+      });
+      empty.classList.toggle('d-none', shown !== 0);
+    });
+  })();
+</script>
+{% endblock %}

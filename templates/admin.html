@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Admin - CTF Hub{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3"><i class="bi bi-gear"></i> Admin</h1>
+{% include "_admin_nav.html" %}
+
+<h2 class="h4 mb-3"><i class="bi bi-upload"></i> Add a Video</h2>
+
+<div class="card mb-5">
+  <div class="card-body p-4">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="platform_id">Platform</label>
+          <select class="form-select" id="platform_id" name="platform_id" required>
+            <option value="">Choose...</option>
+            {% for pl in platforms %}
+              <option value="{{ pl.id }}">{{ pl.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="title">Video title</label>
+          <input type="text" class="form-control" id="title" name="title" required
+                 placeholder="Example: Solving the Basic Pentesting room">
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="description">Description (optional)</label>
+          <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="tags">Tags (optional, separate with commas)</label>
+          <input type="text" class="form-control" id="tags" name="tags"
+                 placeholder="Example: web, sqli, easy">
+          <div class="form-text">Tags make the video easy to find in the Videos search.</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="video_file">Option A: upload a video file</label>
+          <input type="file" class="form-control" id="video_file" name="video_file" accept="video/*">
+          <div class="form-text">mp4, webm, mov or m4v (up to 1 GB)</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="youtube_url">Option B: paste a YouTube link</label>
+          <input type="url" class="form-control" id="youtube_url" name="youtube_url"
+                 placeholder="https://www.youtube.com/watch?v=...">
+          <div class="form-text">Good for big videos (faster than uploading).</div>
+        </div>
+      </div>
+      <button class="btn btn-success mt-4" type="submit"><i class="bi bi-plus-circle"></i> Add video</button>
+    </form>
+  </div>
+</div>
+
+<h2 class="h4 mb-3">All Videos</h2>
+{% if videos %}
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead><tr><th>Platform</th><th>Title</th><th>Type</th><th></th></tr></thead>
+    <tbody>
+      {% for v in videos %}
+      <tr>
+        <td>{{ v.platform_name }}</td>
+        <td>{{ v.title }}</td>
+        <td>{{ 'File' if v.filename else 'YouTube' }}</td>
+        <td class="text-end">
+          <form method="post" action="{{ url_for('delete_video', video_id=v.id) }}"
+                onsubmit="return confirm('Delete this video?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn btn-sm btn-outline-danger" type="submit"><i class="bi bi-trash"></i> Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  <p class="text-secondary">No videos yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Edit About page - CTF Hub{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3"><i class="bi bi-gear"></i> Admin</h1>
+{% include "_admin_nav.html" %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="h4 mb-0">Edit About page</h2>
+  <a class="btn btn-sm btn-outline-secondary" target="_blank" href="{{ url_for('about') }}"><i class="bi bi-eye"></i> View page</a>
+</div>
+
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="card">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label" for="about_name">Your name</label>
+          <input type="text" class="form-control" id="about_name" name="about_name" value="{{ v.about_name }}" maxlength="60" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="about_intro">About me (leave an empty line for a new paragraph)</label>
+          <textarea class="form-control" id="about_intro" name="about_intro" rows="6" maxlength="2000">{{ v.about_intro }}</textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="about_goal">My goal</label>
+          <textarea class="form-control" id="about_goal" name="about_goal" rows="3" maxlength="1000">{{ v.about_goal }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="about_email">Email (optional)</label>
+          <input type="email" class="form-control" id="about_email" name="about_email" value="{{ v.about_email }}" maxlength="100">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="about_youtube">YouTube link (optional)</label>
+          <input type="url" class="form-control" id="about_youtube" name="about_youtube" value="{{ v.about_youtube }}" maxlength="300" placeholder="https://...">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="about_github">GitHub link (optional)</label>
+          <input type="url" class="form-control" id="about_github" name="about_github" value="{{ v.about_github }}" maxlength="300" placeholder="https://...">
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-success mt-3" type="submit"><i class="bi bi-check-lg"></i> Save changes</button>
+</form>
+{% endblock %}

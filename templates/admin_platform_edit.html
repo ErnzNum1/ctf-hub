@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ p.name }} - CTF Hub{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3"><i class="bi bi-gear"></i> Admin</h1>
+{% include "_admin_nav.html" %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h2 class="h4 mb-0">Edit: {{ p.name }}</h2>
+  <div class="d-flex gap-2">
+    <a class="btn btn-sm btn-outline-secondary" target="_blank" href="{{ url_for('platform', slug=p.slug) }}">
+      <i class="bi bi-eye"></i> View page
+    </a>
+    <form method="post" action="{{ url_for('admin_platform_restore', slug=p.slug) }}"
+          onsubmit="return confirm('Put back the original text for this platform? Your changes will be lost.');">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-sm btn-outline-danger" type="submit"><i class="bi bi-arrow-counterclockwise"></i> Restore original text</button>
+    </form>
+  </div>
+</div>
+
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <div class="card mb-4">
+    <div class="card-header fw-semibold">Quick facts</div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="form-label" for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{ v.name }}" maxlength="100" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="accent">Colour</label>
+          <input type="color" class="form-control form-control-color w-100" id="accent" name="accent" value="{{ v.accent }}">
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="tagline">Tagline (short sentence under the name)</label>
+          <input type="text" class="form-control" id="tagline" name="tagline" value="{{ v.tagline }}" maxlength="200">
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="website">Website link</label>
+          <input type="url" class="form-control" id="website" name="website" value="{{ v.website }}" maxlength="300" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="founded">Founded</label>
+          <input type="text" class="form-control" id="founded" name="founded" value="{{ v.founded }}" maxlength="200">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="founder">Founder</label>
+          <input type="text" class="form-control" id="founder" name="founder" value="{{ v.founder }}" maxlength="200">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="headquarters">Based in</label>
+          <input type="text" class="form-control" id="headquarters" name="headquarters" value="{{ v.headquarters }}" maxlength="200">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="pricing">Pricing (free or paid)</label>
+          <input type="text" class="form-control" id="pricing" name="pricing" value="{{ v.pricing }}" maxlength="200">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="difficulty">Difficulty</label>
+          <input type="text" class="form-control" id="difficulty" name="difficulty" value="{{ v.difficulty }}" maxlength="200">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="best_for">Best for</label>
+          <input type="text" class="form-control" id="best_for" name="best_for" value="{{ v.best_for }}" maxlength="300">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header fw-semibold">Page text</div>
+    <div class="card-body">
+      <p class="small text-secondary">
+        To start a new paragraph, leave an <strong>empty line</strong> between paragraphs.
+        In Key Features and Tips, write <strong>one point per line</strong>.
+      </p>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="7" maxlength="6000">{{ v.description }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="history">History</label>
+        <textarea class="form-control" id="history" name="history" rows="7" maxlength="6000">{{ v.history }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="about">About</label>
+        <textarea class="form-control" id="about" name="about" rows="7" maxlength="6000">{{ v.about }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="features">Key Features (one per line)</label>
+        <textarea class="form-control" id="features" name="features" rows="6" maxlength="3000">{{ v.features }}</textarea>
+      </div>
+      <div class="mb-0">
+        <label class="form-label" for="tips">Tips for Beginners (one per line)</label>
+        <textarea class="form-control" id="tips" name="tips" rows="5" maxlength="3000">{{ v.tips }}</textarea>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-success" type="submit"><i class="bi bi-check-lg"></i> Save changes</button>
+  <a class="btn btn-outline-secondary" href="{{ url_for('admin_platforms') }}">Back</a>
+</form>
+{% endblock %}

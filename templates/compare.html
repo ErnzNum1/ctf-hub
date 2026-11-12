@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Compare Platforms - CTF Hub{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-2"><i class="bi bi-table"></i> Compare the 4 Platforms</h1>
+<p class="text-secondary mb-4">
+  Side by side. Not sure where to start? Try the <a href="{{ url_for('quiz') }}">quiz</a>.
+</p>
+
+<div class="table-responsive">
+  <table class="table table-bordered align-middle compare-table">
+    <thead>
+      <tr>
+        <th scope="col" class="text-secondary"></th>
+        {% for p in platforms %}
+          <th scope="col" style="border-top: 4px solid {{ p.accent }};">
+            <a href="{{ url_for('platform', slug=p.slug) }}" class="text-decoration-none">{{ p.name }}</a>
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Free or paid</th>
+        {% for p in platforms %}<td>{{ p.pricing }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Difficulty</th>
+        {% for p in platforms %}<td>{{ p.difficulty }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Best for</th>
+        {% for p in platforms %}<td>{{ p.best_for }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Founded</th>
+        {% for p in platforms %}<td>{{ p.founded }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Founder</th>
+        {% for p in platforms %}<td>{{ p.founder }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Based in</th>
+        {% for p in platforms %}<td>{{ p.headquarters }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Website</th>
+        {% for p in platforms %}
+          <td><a href="{{ p.website }}" target="_blank" rel="noopener">Visit <i class="bi bi-box-arrow-up-right"></i></a></td>
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

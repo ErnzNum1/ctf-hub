@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - CTF Hub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card">
+      <div class="card-body p-4 text-center">
+        <h1 class="h4 mb-3">{{ title }}</h1>
+        <p class="mb-3">{{ message }}</p>
+        {% if flag %}
+          <p class="text-secondary small mb-1">Your flag:</p>
+          <code class="fs-5 user-select-all">{{ flag }}</code>
+          <p class="small text-secondary mt-3 mb-0">Copy it and submit it on the challenge page.</p>
+        {% endif %}
+      </div>
+    </div>
+    <p class="text-center mt-3"><a href="{{ url_for('challenges') }}">&larr; Back to challenges</a></p>
+  </div>
+</div>
+{% endblock %}

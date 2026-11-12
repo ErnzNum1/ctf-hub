@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}{{ c.title }} - Challenges - CTF Hub{% endblock %}
+
+{% block content %}
+{% set colors = {'easy': 'success', 'medium': 'warning', 'hard': 'danger'} %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('challenges') }}">Challenges</a></li>
+        <li class="breadcrumb-item active">{{ c.title }}</li>
+      </ol>
+    </nav>
+
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+      <h1 class="h3 mb-0">{{ c.title }}</h1>
+      {% if solved %}<span class="badge text-bg-success"><i class="bi bi-check-lg"></i> Solved</span>{% endif %}
+    </div>
+    <p class="mb-4">
+      <span class="badge text-bg-{{ colors[c.difficulty] }}">{{ c.difficulty|capitalize }}</span>
+      <span class="badge text-bg-secondary">{{ c.category }}</span>
+      <span class="badge text-bg-dark border">{{ c.points }} points</span>
+    </p>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="h6 text-secondary">Mission</h2>
+        <p class="mb-0">{{ c.description }}</p>
+      </div>
+    </div>
+
+    {% if c.files or c.lab %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="h6 text-secondary">Materials</h2>
+        {% for f in c.files %}
+          <a class="btn btn-outline-light btn-sm me-2 mb-1 material-btn"
+             href="{{ url_for('challenge_file', cid=c.id, name=f) }}">
+            <i class="bi bi-download"></i> Download {{ f }}
+          </a>
+        {% endfor %}
+        {% if c.lab %}
+          <a class="btn btn-outline-light btn-sm mb-1 material-btn" target="_blank" rel="noopener"
+             href="{{ url_for(c.lab) }}">
+            <i class="bi bi-box-arrow-up-right"></i> Open the challenge page
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="h6 text-secondary">Hints</h2>
+        <p class="small text-secondary">Stuck? Open them one at a time.</p>
+        {% for h in c.hints %}
+          <details class="mb-2">
+            <summary>Hint {{ loop.index }}</summary>
+            <p class="mt-2 mb-0 ps-3">{{ h }}</p>
+          </details>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6 text-secondary">Submit your flag</h2>
+        {% if current_user %}
+        <form method="post" action="{{ url_for('submit_flag', cid=c.id) }}" class="row g-2">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="col-12 col-sm">
+            <input type="text" name="flag" class="form-control" placeholder="CTF{...}"
+                   autocomplete="off" required {{ 'disabled' if solved }}>
+          </div>
+          <div class="col-12 col-sm-auto d-grid">
+            <button class="btn btn-success" type="submit" {{ 'disabled' if solved }}>
+              <i class="bi bi-flag-fill"></i> Submit
+            </button>
+          </div>
+        </form>
+        {% if solved %}<p class="small text-success mt-2 mb-0">You already solved this one. Nice work!</p>{% endif %}
+        {% else %}
+          <p class="mb-2">Log in to submit your flag. Your progress is saved to your account.</p>
+          <a class="btn btn-success btn-sm" href="{{ url_for('login', next=url_for('challenge', cid=c.id)) }}">Log in</a>
+          <a class="btn btn-outline-success btn-sm" href="{{ url_for('signup') }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

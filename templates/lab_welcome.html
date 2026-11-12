@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Welcome - CTF Hub{% endblock %}
+
+{% block content %}
+<!-- TODO: remove this before launch. Admin flag: {{ flag }} -->
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card">
+      <div class="card-body p-4 text-center">
+        <h1 class="h4 mb-3">Welcome to Our Little Website!</h1>
+        <p class="mb-0">There is nothing to see here. Move along. Nothing suspicious at all.</p>
+      </div>
+    </div>
+    <p class="text-center mt-3"><a href="{{ url_for('challenges') }}">&larr; Back to challenges</a></p>
+  </div>
+</div>
+{% endblock %}

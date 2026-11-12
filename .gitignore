@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+secret.key
+ctf.db
+static/videos/
+challenge_files/

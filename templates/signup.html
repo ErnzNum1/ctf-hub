@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Sign up - CTF Hub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-1"><i class="bi bi-person-plus"></i> Sign up</h1>
+        <p class="small text-secondary">Free. Your challenge progress is saved to your account.</p>
+        <form method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username"
+                   value="{{ username }}" required autofocus minlength="3" maxlength="30"
+                   pattern="[A-Za-z0-9_.\-]{3,30}" autocomplete="username">
+            <div class="form-text">3 to 30 characters: letters, numbers, dot, dash or underscore.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   required minlength="{{ min_password }}" maxlength="128" autocomplete="new-password">
+            <div class="form-text">At least {{ min_password }} characters.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="confirm">Type the password again</label>
+            <input type="password" class="form-control" id="confirm" name="confirm"
+                   required maxlength="128" autocomplete="new-password">
+          </div>
+          <button class="btn btn-success w-100" type="submit">Create account</button>
+        </form>
+        <p class="small text-secondary text-center mt-3 mb-0">
+          Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

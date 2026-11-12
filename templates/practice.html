@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Practice Labs - CTF Hub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <h1 class="h3 mb-2"><i class="bi bi-hdd-network"></i> Practice Labs</h1>
+    <p class="text-secondary">
+      Want more? These are free, open-source apps that are <strong>built to be hacked</strong>.
+      You run them on <strong>your own computer</strong>, so nobody gets hurt and nothing is illegal.
+    </p>
+
+    <div class="alert alert-warning" role="alert">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <strong>Rule #1:</strong> only test systems you own or that clearly allow it.
+      Never scan or attack a real website without written permission.
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h5">OWASP Juice Shop</h2>
+            <p class="small mb-2">
+              A modern online shop full of security bugs, with a built-in score board.
+              Great for beginners who want to try many web vulnerabilities.
+            </p>
+            <a href="https://owasp.org/www-project-juice-shop/" target="_blank" rel="noopener"
+               class="btn btn-sm btn-outline-success">Official page <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h5">DVWA</h2>
+            <p class="small mb-2">
+              "Damn Vulnerable Web Application". A classic PHP and MySQL app with levels
+              (low, medium, high) for SQL injection, XSS and more.
+            </p>
+            <a href="https://github.com/digininja/DVWA" target="_blank" rel="noopener"
+               class="btn btn-sm btn-outline-success">Project page <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h5">WebGoat</h2>
+            <p class="small mb-2">
+              A guided lesson app from OWASP that teaches you how web bugs work step by step.
+            </p>
+            <a href="https://github.com/WebGoat/WebGoat" target="_blank" rel="noopener"
+               class="btn btn-sm btn-outline-success">Project page <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h5">PortSwigger Web Security Academy</h2>
+            <p class="small mb-2">
+              Free online labs that are hosted for you, so there is nothing to install.
+              Already covered on this site.
+            </p>
+            <a href="{{ url_for('platform', slug='portswigger') }}"
+               class="btn btn-sm btn-outline-success">See on CTF Hub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="h5">How to run one on your computer (example: Juice Shop)</h2>
+    <ol>
+      <li>Install <strong>Docker Desktop</strong> from docker.com and open it.</li>
+      <li>Open a terminal and run:
+        <pre class="p-3 rounded bg-body-tertiary border mt-2 mb-2"><code>docker run --rm -p 3000:3000 bkimminich/juice-shop</code></pre>
+      </li>
+      <li>Open <code>http://localhost:3000</code> in your browser.</li>
+      <li>Press <code>Ctrl + C</code> in the terminal when you are finished.</li>
+    </ol>
+    <p class="small text-secondary">
+      Each project has its own install guide on its official page. Please follow that guide,
+      since steps can change over time.
+    </p>
+
+    <a href="{{ url_for('challenges') }}" class="btn btn-success mt-2">
+      <i class="bi bi-flag"></i> Back to the challenges
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Page not found - CTF Hub{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="display-1 fw-bold text-success">404</h1>
+  <p class="lead text-secondary">This flag could not be found.</p>
+  <a href="{{ url_for('index') }}" class="btn btn-success">Back to home</a>
+</div>
+{% endblock %}

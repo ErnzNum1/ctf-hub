@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Users & progress - CTF Hub{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3"><i class="bi bi-gear"></i> Admin</h1>
+{% include "_admin_nav.html" %}
+
+<h2 class="h4 mb-3">Users &amp; challenge progress</h2>
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead>
+      <tr><th>Username</th><th>Role</th><th>Joined</th><th>Solved</th><th>Points</th></tr>
+    </thead>
+    <tbody>
+      {% for u in rows %}
+      <tr>
+        <td>{{ u.username }}</td>
+        <td><span class="badge text-bg-{{ 'warning' if u.role == 'admin' else 'secondary' }}">{{ u.role }}</span></td>
+        <td class="text-secondary small">{{ u.created_at }}</td>
+        <td>{{ u.solved }} / {{ total }}</td>
+        <td>{{ u.points }} / {{ total_points }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p class="small text-secondary">Progress is read from the database table <code>challenge_progress</code>.</p>
+{% endblock %}
